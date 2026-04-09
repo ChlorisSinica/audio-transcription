@@ -55,13 +55,15 @@ from ctc_forced_aligner import (
     postprocess_results,
 )
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
 # ASR model
 GRANITE_REPO = "ibm-granite/granite-4.0-1b-speech"
-GRANITE_DIR = Path(__file__).parent / "models" / "granite-4.0-1b-speech"
+GRANITE_DIR = PROJECT_ROOT / "models" / "granite-4.0-1b-speech"
 
 # Alignment model (English-native, avoids romanization issues)
 ALIGNER_REPO = "jonatasgrosman/wav2vec2-large-xlsr-53-english"
-ALIGNER_DIR = Path(__file__).parent / "models" / "wav2vec2-large-xlsr-53-english"
+ALIGNER_DIR = PROJECT_ROOT / "models" / "wav2vec2-large-xlsr-53-english"
 
 TARGET_SR = 16000
 

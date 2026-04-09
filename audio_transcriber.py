@@ -48,7 +48,7 @@ import spacy
 import torch
 from transformers import AutoProcessor, CohereAsrForConditionalGeneration
 
-from verify_granite import (
+from _benchmark.verify_granite import (
     TARGET_SR,
     ALIGNER_REPO,
     ALIGNER_DIR,

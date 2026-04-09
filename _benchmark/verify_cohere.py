@@ -40,7 +40,7 @@ import torch
 from transformers import AutoProcessor, CohereAsrForConditionalGeneration
 
 # Import stable primitives from the baseline Granite script.
-from verify_granite import (
+from _benchmark.verify_granite import (
     TARGET_SR,
     ALIGNER_REPO,
     ALIGNER_DIR,
@@ -59,9 +59,11 @@ from ctc_forced_aligner import (
     postprocess_results,
 )
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
 # ASR model
 COHERE_REPO = "CohereLabs/cohere-transcribe-03-2026"
-COHERE_DIR = Path(__file__).parent / "models" / "cohere-transcribe-03-2026"
+COHERE_DIR = PROJECT_ROOT / "models" / "cohere-transcribe-03-2026"
 
 _DIGIT_WORDS = {
     "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four",

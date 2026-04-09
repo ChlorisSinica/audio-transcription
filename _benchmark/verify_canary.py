@@ -52,7 +52,7 @@ import torch
 # - chunk_audio utility
 # - ensure_model_downloaded helper
 # - ALIGNER_REPO, ALIGNER_DIR constants (English-native wav2vec2)
-from verify_granite import (
+from _benchmark.verify_granite import (
     TARGET_SR,
     ALIGNER_REPO,
     ALIGNER_DIR,

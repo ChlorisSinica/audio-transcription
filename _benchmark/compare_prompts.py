@@ -26,7 +26,7 @@ from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 
 # Import stable primitives from the baseline verification script.
 # verify_granite.py is treated as read-only reference.
-from verify_granite import (
+from _benchmark.verify_granite import (
     GRANITE_REPO,
     GRANITE_DIR,
     TARGET_SR,
