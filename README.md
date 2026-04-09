@@ -1,20 +1,20 @@
 # audio-transcription
 
-Audio transcription workspace for local model evaluation and batch processing.
+音声文字起こしとモデル検証のためのローカル作業用リポジトリです。
 
-## Structure
+## 構成
 
-- `audio_transcriber.py`: main transcription pipeline
-- `audio_converter.py`: FFmpeg-based audio conversion and normalization
-- `_benchmark/`: model verification and prompt comparison scripts
-- `_legacy/`: old scripts kept for reference only
-- `models/`: locally cached model files
-- `config.json`: default settings for the main transcription pipeline
-- `requirements.bat`: Windows setup script for `.venv`
+- `audio_transcriber.py`: 本番用の文字起こしパイプライン
+- `audio_converter.py`: FFmpeg を使った音声変換・音量正規化
+- `_benchmark/`: モデル検証、比較、プロンプト実験用スクリプト
+- `_legacy/`: 旧スクリプトの退避先
+- `models/`: ローカル保存するモデル本体
+- `config.json`: `audio_transcriber.py` の既定設定
+- `requirements.bat`: Windows 用セットアップスクリプト
 
-## Main usage
+## 主な使い方
 
-Run the main pipeline:
+文字起こしの実行例:
 
 ```powershell
 python audio_transcriber.py <input>
@@ -22,9 +22,13 @@ python audio_transcriber.py <input> --output-dir .\out
 python audio_transcriber.py <input> --config config.json
 ```
 
-`<input>` can be a file, a directory, or a glob pattern.
+`<input>` には以下を指定できます。
 
-Examples:
+- 単一ファイル
+- ディレクトリ
+- glob パターン
+
+例:
 
 ```powershell
 python audio_transcriber.py .\_audio\lecture.m4a
@@ -32,11 +36,11 @@ python audio_transcriber.py .\_audio\course01\
 python audio_transcriber.py ".\_audio\**\*.m4a"
 ```
 
-## Benchmark scripts
+## ベンチマーク・検証
 
-Benchmark and verification helpers are grouped under `_benchmark/`.
+検証系スクリプトは `_benchmark/` にまとめています。
 
-Examples:
+実行例:
 
 ```powershell
 python -m _benchmark.verify_granite <audio_file>
@@ -45,24 +49,24 @@ python -m _benchmark.verify_canary <audio_file>
 python -m _benchmark.compare_prompts <audio_file>
 ```
 
-These scripts are for model checks, prompt exploration, and performance comparison. They are not the production entrypoint.
+これらはモデル比較、動作確認、プロンプト探索用です。通常の文字起こし入口は `audio_transcriber.py` です。
 
-## Setup
+## セットアップ
 
-On Windows, install dependencies into the local virtual environment with:
+Windows では、ローカル仮想環境 `.venv` に依存関係を入れる前提です。
 
 ```powershell
 .\requirements.bat
 ```
 
-Prerequisites:
+前提条件:
 
-- `.venv` already exists
-- `ffmpeg` is installed and available on `PATH`
-- GPU drivers and CUDA-compatible PyTorch environment are available if using GPU inference
+- `.venv` が事前に作成済みであること
+- `ffmpeg` が `PATH` から実行できること
+- GPU 推論を使う場合は、対応するドライバと PyTorch 環境があること
 
-## Notes
+## 補足
 
-- `audio_transcriber.py` uses helpers from `_benchmark.verify_granite`.
-- Downloaded model files are stored under `models/` in this repository.
-- `_legacy/` is intentionally not part of the active workflow.
+- `audio_transcriber.py` は `_benchmark.verify_granite` の補助関数を利用します
+- ダウンロードしたモデルはこのリポジトリ内の `models/` に保存します
+- `_legacy/` は参照用であり、通常運用には含めません
