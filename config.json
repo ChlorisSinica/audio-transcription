@@ -1,0 +1,12 @@
+{
+  "model": {
+    "asr": "CohereLabs/cohere-transcribe-03-2026",
+    "dtype": "bfloat16"
+  },
+  "chunking": {
+    "max_duration_sec": 30,
+    "overlap_sec": 2
+  },
+  "output_dir": null,
+  "language": "en"
+}

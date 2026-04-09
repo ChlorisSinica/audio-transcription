@@ -1,0 +1,26 @@
+.claude/
+.codex_tmp/
+models/
+_audio/
+_log/
+_text/
+
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Claude Code
+.claude/
+.codex_tmp/
+
+# OS
+Thumbs.db
+.DS_Store
