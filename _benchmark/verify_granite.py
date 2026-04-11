@@ -40,10 +40,8 @@ import sys
 import time
 from pathlib import Path
 
-import librosa
 import numpy as np
 import torch
-from huggingface_hub import snapshot_download
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 
 from ctc_forced_aligner import (
@@ -55,70 +53,15 @@ from ctc_forced_aligner import (
     postprocess_results,
 )
 
+from _utils.audio import TARGET_SR, load_audio_16k_mono, chunk_audio
+from _utils.model import ensure_model_downloaded, print_vram
+from _utils.alignment import ALIGNER_REPO, ALIGNER_DIR
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # ASR model
 GRANITE_REPO = "ibm-granite/granite-4.0-1b-speech"
 GRANITE_DIR = PROJECT_ROOT / "models" / "granite-4.0-1b-speech"
-
-# Alignment model (English-native, avoids romanization issues)
-ALIGNER_REPO = "jonatasgrosman/wav2vec2-large-xlsr-53-english"
-ALIGNER_DIR = PROJECT_ROOT / "models" / "wav2vec2-large-xlsr-53-english"
-
-TARGET_SR = 16000
-
-
-def print_vram(label: str) -> None:
-    if torch.cuda.is_available():
-        allocated = torch.cuda.memory_allocated() / 1e9
-        reserved = torch.cuda.memory_reserved() / 1e9
-        print(f"[VRAM {label:22s}] allocated={allocated:5.2f}GB "
-              f"reserved={reserved:5.2f}GB")
-
-
-def ensure_model_downloaded(repo_id: str, local_dir: Path) -> Path:
-    """Download a model to local_dir as a flat directory if not present."""
-    if (local_dir / "config.json").exists():
-        print(f"Model already present at: {local_dir}")
-        return local_dir
-
-    print(f"Downloading {repo_id} to: {local_dir}")
-    local_dir.parent.mkdir(parents=True, exist_ok=True)
-    snapshot_download(
-        repo_id=repo_id,
-        local_dir=str(local_dir),
-    )
-    print("Download complete.")
-    return local_dir
-
-
-def load_audio_16k_mono(audio_path: str) -> torch.Tensor:
-    """Load audio as 16kHz mono via librosa. Returns shape (1, num_samples)."""
-    audio_np, _ = librosa.load(audio_path, sr=TARGET_SR, mono=True)
-    wav = torch.from_numpy(audio_np).unsqueeze(0)  # (1, num_samples)
-    return wav
-
-
-def chunk_audio(
-    wav: torch.Tensor, chunk_sec: float, overlap_sec: float
-) -> list[tuple[float, float, torch.Tensor]]:
-    """Split audio into fixed-duration chunks with overlap."""
-    num_samples = wav.shape[1]
-    chunk_samples = int(chunk_sec * TARGET_SR)
-    overlap_samples = int(overlap_sec * TARGET_SR)
-    stride = chunk_samples - overlap_samples
-
-    chunks = []
-    start = 0
-    while start < num_samples:
-        end = min(start + chunk_samples, num_samples)
-        chunk_wav = wav[:, start:end]
-        chunks.append((start / TARGET_SR, end / TARGET_SR, chunk_wav))
-        if end == num_samples:
-            break
-        start += stride
-
-    return chunks
 
 
 def transcribe_chunk(

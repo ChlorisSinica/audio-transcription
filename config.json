@@ -8,5 +8,13 @@
     "overlap_sec": 2
   },
   "output_dir": null,
-  "language": "en"
+  "language": "en",
+  "translation": {
+    "provider": "local",
+    "model": "Qwen/Qwen3.5-9B",
+    "dtype": "bfloat16",
+    "glossary": "_glossary/mse.tsv",
+    "target_language": "ja",
+    "max_sentences_per_chunk": 100
+  }
 }

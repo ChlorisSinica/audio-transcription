@@ -37,6 +37,11 @@ echo Installing core libraries...
 "%PY_PATH%" -m pip install git+https://github.com/MahmoudAshraf97/ctc-forced-aligner.git
 "%PY_PATH%" -m spacy download en_core_web_sm
 
+:: === Translation API + Testing ===
+echo Installing translation and testing dependencies...
+"%PY_PATH%" -m pip install openai
+"%PY_PATH%" -m pip install pytest
+
 :: === NeMo (for NVIDIA Canary Qwen 2.5B) ===
 :: Note: [asr] only, not [asr,tts]. The tts extra pulls in pynini which
 :: cannot be compiled on Windows (requires GCC flags unsupported by MSVC).

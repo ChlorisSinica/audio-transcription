@@ -44,23 +44,10 @@ import numpy as np
 import soundfile as sf
 import torch
 
-# Import stable primitives from the baseline Granite script.
-# verify_granite.py is treated as read-only reference and provides:
-# - TARGET_SR constant
-# - print_vram helper
-# - load_audio_16k_mono utility
-# - chunk_audio utility
-# - ensure_model_downloaded helper
-# - ALIGNER_REPO, ALIGNER_DIR constants (English-native wav2vec2)
-from _benchmark.verify_granite import (
-    TARGET_SR,
-    ALIGNER_REPO,
-    ALIGNER_DIR,
-    print_vram,
-    load_audio_16k_mono,
-    chunk_audio,
-    ensure_model_downloaded,
-)
+# Import shared utilities.
+from _utils.audio import TARGET_SR, load_audio_16k_mono, chunk_audio
+from _utils.model import ensure_model_downloaded, print_vram
+from _utils.alignment import ALIGNER_REPO, ALIGNER_DIR
 
 # ctc-forced-aligner (same aligner as verify_granite)
 from ctc_forced_aligner import (

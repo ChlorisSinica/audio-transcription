@@ -48,15 +48,9 @@ import spacy
 import torch
 from transformers import AutoProcessor, CohereAsrForConditionalGeneration
 
-from _benchmark.verify_granite import (
-    TARGET_SR,
-    ALIGNER_REPO,
-    ALIGNER_DIR,
-    print_vram,
-    ensure_model_downloaded,
-    load_audio_16k_mono,
-    chunk_audio,
-)
+from _utils.audio import TARGET_SR, load_audio_16k_mono, chunk_audio
+from _utils.model import ensure_model_downloaded, print_vram
+from _utils.alignment import ALIGNER_REPO, ALIGNER_DIR
 from ctc_forced_aligner import (
     load_alignment_model,
     generate_emissions,

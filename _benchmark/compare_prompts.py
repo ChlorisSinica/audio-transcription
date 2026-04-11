@@ -24,16 +24,10 @@ import time
 import torch
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 
-# Import stable primitives from the baseline verification script.
-# verify_granite.py is treated as read-only reference.
-from _benchmark.verify_granite import (
-    GRANITE_REPO,
-    GRANITE_DIR,
-    TARGET_SR,
-    ensure_model_downloaded,
-    load_audio_16k_mono,
-    print_vram,
-)
+# Import shared utilities and Granite-specific constants.
+from _utils.audio import TARGET_SR, load_audio_16k_mono
+from _utils.model import ensure_model_downloaded, print_vram
+from _benchmark.verify_granite import GRANITE_REPO, GRANITE_DIR
 
 # Candidate prompts to test. Each starts with <|audio|> which is the
 # required placeholder for audio injection in the Granite chat template.
